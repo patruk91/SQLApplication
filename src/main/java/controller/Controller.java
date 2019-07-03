@@ -1,5 +1,7 @@
 package controller;
 
+import dao.MentorDao;
+import dao.SQL.MentorDaoSQL;
 import textView.reader.Reader;
 import textView.validator.Validator;
 import textView.view.View;
@@ -8,6 +10,11 @@ public class Controller {
     private View view = new View();
     private Validator validator = new Validator();
     private Reader reader = new Reader(view, validator);
+
+    private String url = "jdbc:postgresql://localhost:5432/sqlapplication";
+    private String user = "pl";
+    private String password = "postgres";
+    private MentorDao mentorDao = new MentorDaoSQL(url, user, password);
 
     public void run() {
         boolean exitApp = false;
@@ -24,7 +31,7 @@ public class Controller {
             int option = reader.getNumberInRange(1, 5);
             switch(option) {
                 case 1:
-
+                    displayMenu();
                     break;
                 case 2:
 
@@ -41,6 +48,41 @@ public class Controller {
                 default:
                     view.displayError("No option available");
                     break;
+            }
+        }
+    }
+
+    private void displayMenu() {
+        boolean backToMenu = false;
+        String showMenu = "Display menu:\n" +
+                "1. Display first and last name for mentors\n" +
+                "2. Display mentors by nicknames\n" +
+                "3. Display applicant by name: Carol\n" +
+                "4. Display applicant by email: '@adipiscingenimmi.edu'\n" +
+                "5. Back to menu\n";
+
+        while (!backToMenu) {
+            view.displayMenu(showMenu);
+            view.displayQuestion("Choose menu option");
+            int option = reader.getNumberInRange(1, 5);
+            switch (option) {
+                case 1:
+                    mentorDao.displayMentorsFirstAndLastName();
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    backToMenu = true;
+                    break;
+                default:
+                    view.displayMessage("No option available!");
             }
         }
     }
