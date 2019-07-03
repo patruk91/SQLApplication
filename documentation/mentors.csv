@@ -1,3 +1,4 @@
+first_name,last_name,nick_name,phone_number,email,city,favourite_number
 'Pál','Monoczki','Pali','003630/327-2663','pal.monoczki@codecool.com','Miskolc',NULL
 'Sándor','Szodoray','Szodi','003620/519-9152','sandor.szodoray@codecool.com','Miskolc',7
 'Dániel','Salamon','Dani','003620/508-0706','daniel.salamon@codecool.com','Budapest',4
