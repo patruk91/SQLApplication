@@ -7,11 +7,11 @@ public class View {
     }
 
     public void displayMessage(String message) {
-        System.out.println(message);
+        System.out.print(message);
     }
 
     public void displayQuestion(String question) {
-        System.out.println(question + "?: ");
+        System.out.print(question + "?: ");
     }
 
     public void displayError(String error) {

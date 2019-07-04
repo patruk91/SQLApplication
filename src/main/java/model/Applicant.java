@@ -44,7 +44,7 @@ public class Applicant {
             return this;
         }
 
-        public ApplicantBuilder setFavouriteNumber(int applicationCode) {
+        public ApplicantBuilder setApplicationCode(int applicationCode) {
             this.applicantToBuild.applicationCode = applicationCode;
             return this;
         }

@@ -6,6 +6,8 @@ import dao.MentorDao;
 import dao.SQL.ApplicantDaoSQL;
 import dao.SQL.HandleTablesInDatabaseDaoSQL;
 import dao.SQL.MentorDaoSQL;
+import model.Applicant;
+import model.Mentor;
 import textView.reader.Reader;
 import textView.validator.Validator;
 import textView.view.View;
@@ -122,12 +124,14 @@ public class Controller {
         boolean backToMenu = false;
         String showMenu = "Add menu:\n" +
                 "1. Add Markus Schaffarzyk\n" +
-                "2. Back to menu\n";
+                "2. Add mentor\n" +
+                "3. Add applicant\n" +
+                "4. Back to menu\n";
 
         while (!backToMenu) {
             view.displayMenu(showMenu);
             view.displayQuestion("Choose menu option");
-            int option = reader.getNumberInRange(1, 5);
+            int option = reader.getNumberInRange(1, 4);
             switch (option) {
                 case 1:
                     applicantDao.insertApplicantMarkus();
@@ -136,12 +140,68 @@ public class Controller {
                             applicantMarkus.toArray(new String[0][0]));
                     break;
                 case 2:
+                    Mentor newMentor = createNewMentor();
+                    mentorDao.addNewMentor(newMentor);
+                    break;
+                case 3:
+                    Applicant applicant = createNewApplicant();
+                    applicantDao.addNewApplicant(applicant);
+                    break;
+                case 4:
                     backToMenu = true;
                     break;
                 default:
                     view.displayMessage("No option available!");
             }
         }
+    }
+
+    private Mentor createNewMentor() {
+        String firstName = getString("First name:");
+        String lastName = getString("Last name:");
+        String nickName = getString("Nick name:");
+        String phoneNumber = getString("Phone number:");
+        String email = getString("Email:");
+        String city = getString("City:");
+        int favouriteNumber = getNumber("Favourite number:");
+        Mentor.MentorBuilder mentorBuilder = new Mentor.MentorBuilder();
+        mentorBuilder
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setNickName(nickName)
+                .setPhoneNumber(phoneNumber)
+                .setEmail(email)
+                .setCity(city)
+                .setFavouriteNumber(favouriteNumber);
+        return mentorBuilder.build();
+    }
+
+
+
+    private Applicant createNewApplicant() {
+        String firstName = getString("First name:");
+        String lastName = getString("Last name:");
+        String phoneNumber = getString("Phone number:");
+        String email = getString("Email:");
+        int applicationCode = getNumber("Application code:");
+        Applicant.ApplicantBuilder applicantBuilder = new Applicant.ApplicantBuilder();
+        applicantBuilder
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setPhoneNumber(phoneNumber)
+                .setEmail(email)
+                .setApplicationCode(applicationCode);
+        return applicantBuilder.build();
+    }
+
+    private String getString(String s) {
+        view.displayMessage(s);
+        return reader.getNotEmptyString();
+    }
+
+    private int getNumber(String s) {
+        view.displayMessage(s);
+        return reader.getNumberInRange(Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     private void displayUpdateMenu() {

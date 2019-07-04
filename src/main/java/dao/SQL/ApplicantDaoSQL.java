@@ -146,4 +146,30 @@ public class ApplicantDaoSQL implements ApplicantDao {
         return getApplicantData(query);
     }
 
+    @Override
+    public void addNewApplicant(Applicant applicant) {
+        String query = "INSERT INTO applicants\n" +
+                "(first_name, last_name, phone_number, email, application_code)\n" +
+                "VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            insertMentorData(stmt, applicant);
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage()
+                    + "\nSQLState: " + e.getSQLState()
+                    + "\nVendorError: " + e.getErrorCode());
+        }
+    }
+
+    private void insertMentorData(PreparedStatement stmt, Applicant applicant) throws SQLException {
+        stmt.setString(1, applicant.getFirstName());
+        stmt.setString(2, applicant.getLastName());
+        stmt.setString(3, applicant.getPhoneNumber());
+        stmt.setString(4, applicant.getEmail());
+        stmt.setLong(5, applicant.getApplicationCode());
+        stmt.executeUpdate();
+
+    }
+
 }

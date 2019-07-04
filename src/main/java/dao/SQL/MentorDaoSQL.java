@@ -112,4 +112,32 @@ public class MentorDaoSQL implements MentorDao {
             id++;
         }
     }
+
+    @Override
+    public void addNewMentor(Mentor newMentor) {
+        String query = "INSERT INTO mentors\n" +
+                "(first_name, last_name, nick_name, phone_number, email, city, favourite_number)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            insertMentorData(stmt, newMentor);
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage()
+                    + "\nSQLState: " + e.getSQLState()
+                    + "\nVendorError: " + e.getErrorCode());
+        }
+    }
+
+    private void insertMentorData(PreparedStatement stmt, Mentor newMentor) throws SQLException {
+        stmt.setString(1, newMentor.getFirstName());
+        stmt.setString(2, newMentor.getLastName());
+        stmt.setString(3, newMentor.getNickName());
+        stmt.setString(4, newMentor.getPhoneNumber());
+        stmt.setString(5, newMentor.getEmail());
+        stmt.setString(6, newMentor.getCity());
+        stmt.setInt(7, newMentor.getFavouriteNumber());
+        stmt.executeUpdate();
+
+    }
 }

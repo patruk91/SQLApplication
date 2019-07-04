@@ -8,4 +8,5 @@ public interface MentorDao {
     List<String[]> getMentorsFirstAndLastName();
     List<String[]> getMentorsNickNames();
     List<String[]> getAllMentors();
+    void addNewMentor(Mentor newMentor);
 }

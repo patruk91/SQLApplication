@@ -1,5 +1,7 @@
 package dao;
 
+import model.Applicant;
+
 import java.util.List;
 
 public interface ApplicantDao {
@@ -11,4 +13,5 @@ public interface ApplicantDao {
     List<String[]> displayApplicantJemima();
     void deleteApplicantFromDomainMaurisuNet();
     List<String[]> getAllApplicants();
+    void addNewApplicant(Applicant applicant);
 }
