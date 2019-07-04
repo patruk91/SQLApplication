@@ -1,5 +1,9 @@
 package dao;
 
+import model.Mentor;
+
+import java.util.List;
+
 public interface MentorDao {
-    void displayMentorsFirstAndLastName();
+    List<String[]> getMentorsFirstAndLastName();
 }
