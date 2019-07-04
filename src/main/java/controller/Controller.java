@@ -42,7 +42,7 @@ public class Controller {
                     displayMenu();
                     break;
                 case 2:
-
+                    displayAddMenu();
                     break;
                 case 3:
 
@@ -59,6 +59,7 @@ public class Controller {
             }
         }
     }
+
 
     private void displayMenu() {
         boolean backToMenu = false;
@@ -93,6 +94,45 @@ public class Controller {
                     List<String[]> applicantByIndicatedEmail = applicantDao.getApplicantByIndicatedEmail();
                     view.displayTable(new String[]{"Id", "Nick name", "Phone Number"},
                             applicantByIndicatedEmail.toArray(new String[0][0]));
+                    break;
+                case 5:
+                    backToMenu = true;
+                    break;
+                default:
+                    view.displayMessage("No option available!");
+            }
+        }
+    }
+
+
+    private void displayAddMenu() {
+        boolean backToMenu = false;
+        String showMenu = "Add menu:\n" +
+                "1. Add Markus Schaffarzyk\n" +
+                "2. temp\n" +
+                "3. temp\n" +
+                "4. temp'\n" +
+                "5. Back to menu\n";
+
+        while (!backToMenu) {
+            view.displayMenu(showMenu);
+            view.displayQuestion("Choose menu option");
+            int option = reader.getNumberInRange(1, 5);
+            switch (option) {
+                case 1:
+                    applicantDao.insertApplicantMarkus();
+                    List<String[]> applicantMarkus = applicantDao.displayApplicantMarkus();;
+                    view.displayTable(new String[]{"Id", "First name", "Last name", "Phone Number", "Email", "Application Code"},
+                            applicantMarkus.toArray(new String[0][0]));
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
                     break;
                 case 5:
                     backToMenu = true;
