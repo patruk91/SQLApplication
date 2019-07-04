@@ -10,4 +10,5 @@ public interface ApplicantDao {
     void updatePhoneNumberForJemimaForeman();
     List<String[]> displayApplicantJemima();
     void deleteApplicantFromDomainMaurisuNet();
+    List<String[]> getAllApplicants();
 }

@@ -69,12 +69,14 @@ public class Controller {
                 "2. Display mentors by nicknames\n" +
                 "3. Display applicant by name: Carol\n" +
                 "4. Display applicant by email: '@adipiscingenimmi.edu'\n" +
-                "5. Back to menu\n";
+                "5. Display all mentors data\n" +
+                "6. Display all applicants data\n" +
+                "7. Back to menu\n";
 
         while (!backToMenu) {
             view.displayMenu(showMenu);
             view.displayQuestion("Choose menu option");
-            int option = reader.getNumberInRange(1, 5);
+            int option = reader.getNumberInRange(1, 7);
             switch (option) {
                 case 1:
                     List<String[]> mentorsNames = mentorDao.getMentorsFirstAndLastName();
@@ -97,6 +99,16 @@ public class Controller {
                             applicantByIndicatedEmail.toArray(new String[0][0]));
                     break;
                 case 5:
+                    List<String[]> allMentors = mentorDao.getAllMentors();
+                    view.displayTable(new String[]{"Id", "First Name", "Last Name", "Nick name", "Phone Number", "Email", "City", "Favourite number"},
+                            allMentors.toArray(new String[0][0]));
+                    break;
+                case 6:
+                    List<String[]> allApplicants = applicantDao.getAllApplicants();
+                    view.displayTable(new String[]{"Id", "First Name", "Last Name", "Phone Number", "Email", "Application code"},
+                            allApplicants.toArray(new String[0][0]));
+                    break;
+                case 7:
                     backToMenu = true;
                     break;
                 default:

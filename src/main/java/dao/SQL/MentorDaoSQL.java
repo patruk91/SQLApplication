@@ -75,4 +75,41 @@ public class MentorDaoSQL implements MentorDao {
             id++;
         }
     }
+
+    @Override
+    public List<String[]> getAllMentors() {
+        String query = "SELECT * FROM mentors";
+        return getMentorsData(query);
+    }
+
+    private List<String[]> getMentorsData(String query) {
+        List<String[]> applicants = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            addMentors(stmt, applicants);
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage()
+                    + "\nSQLState: " + e.getSQLState()
+                    + "\nVendorError: " + e.getErrorCode());
+        }
+        return applicants;
+    }
+
+    private void addMentors(PreparedStatement stmt, List<String[]> applicants) throws SQLException {
+        ResultSet resultSet = stmt.executeQuery();
+        int id = 1;
+        while (resultSet.next()) {
+            String firstName = resultSet.getString("first_name");
+            String lastName = resultSet.getString("last_name");
+            String nickName = resultSet.getString("nick_name");
+            String phoneNumber = resultSet.getString("phone_number");
+            String email = resultSet.getString("email");
+            String city = resultSet.getString("city");
+            int num = resultSet.getInt("favourite_number");
+            String favouriteNumber = num != 0 ? String.valueOf(num) : "null";
+            String[] applicant = {String.valueOf(id), firstName, lastName, nickName, phoneNumber, email, city, favouriteNumber};
+            applicants.add(applicant);
+            id++;
+        }
+    }
 }

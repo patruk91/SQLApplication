@@ -69,6 +69,10 @@ public class ApplicantDaoSQL implements ApplicantDao {
                 "(first_name, last_name, phone_number, email, application_code)\n" +
                 "VALUES ('Markus', 'Schaffarzyk', '003620/725-2666', 'djnovus@groovecoverage.com', 54823)";
 
+        executeQuery(query);
+    }
+
+    private void executeQuery(String query) {
         try (Connection connection = DatabaseConnection.getConnection(url, user, password);
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.executeUpdate();
@@ -107,14 +111,7 @@ public class ApplicantDaoSQL implements ApplicantDao {
                 "SET phone_number = '003670/223-7459'\n" +
                 "WHERE first_name = 'Jemima' AND last_name = 'Foreman';";
 
-        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage()
-                    + "\nSQLState: " + e.getSQLState()
-                    + "\nVendorError: " + e.getErrorCode());
-        }
+        executeQuery(query);
     }
 
     public List<String[]> displayApplicantJemima() {
@@ -140,13 +137,13 @@ public class ApplicantDaoSQL implements ApplicantDao {
     public void deleteApplicantFromDomainMaurisuNet() {
         String query = "DELETE FROM applicants\n" +
                 "WHERE email LIKE '%@mauriseu.net'";
-        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage()
-                    + "\nSQLState: " + e.getSQLState()
-                    + "\nVendorError: " + e.getErrorCode());
-        }
+        executeQuery(query);
     }
+
+    @Override
+    public List<String[]> getAllApplicants() {
+        String query = "SELECT * FROM applicants";
+        return getApplicantData(query);
+    }
+
 }
