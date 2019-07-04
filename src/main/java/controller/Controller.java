@@ -48,7 +48,7 @@ public class Controller {
                     displayUpdateMenu();
                     break;
                 case 4:
-
+                    displayDeleteMenu();
                     break;
                 case 5:
                     exitApp = true;
@@ -108,10 +108,7 @@ public class Controller {
         boolean backToMenu = false;
         String showMenu = "Add menu:\n" +
                 "1. Add Markus Schaffarzyk\n" +
-                "2. temp\n" +
-                "3. temp\n" +
-                "4. temp'\n" +
-                "5. Back to menu\n";
+                "2. Back to menu\n";
 
         while (!backToMenu) {
             view.displayMenu(showMenu);
@@ -125,15 +122,6 @@ public class Controller {
                             applicantMarkus.toArray(new String[0][0]));
                     break;
                 case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
-                    break;
-                case 5:
                     backToMenu = true;
                     break;
                 default:
@@ -144,12 +132,9 @@ public class Controller {
 
     private void displayUpdateMenu() {
         boolean backToMenu = false;
-        String showMenu = "Add menu:\n" +
+        String showMenu = "Update menu:\n" +
                 "1. Update phone number for Jemima Foreman\n" +
-                "2. temp\n" +
-                "3. temp\n" +
-                "4. temp'\n" +
-                "5. Back to menu\n";
+                "2. Back to menu\n";
 
         while (!backToMenu) {
             view.displayMenu(showMenu);
@@ -163,15 +148,29 @@ public class Controller {
                             applicantMarkus.toArray(new String[0][0]));
                     break;
                 case 2:
-
+                    backToMenu = true;
                     break;
-                case 3:
+                default:
+                    view.displayMessage("No option available!");
+            }
+        }
+    }
 
-                    break;
-                case 4:
+    private void displayDeleteMenu() {
+        boolean backToMenu = false;
+        String showMenu = "Delete menu:\n" +
+                "1. Delete applicants who applied from domain: 'mauriseu.net'\n" +
+                "2. Back to menu\n";
 
+        while (!backToMenu) {
+            view.displayMenu(showMenu);
+            view.displayQuestion("Choose menu option");
+            int option = reader.getNumberInRange(1, 5);
+            switch (option) {
+                case 1:
+                    applicantDao.deleteApplicantFromDomainMaurisuNet();
                     break;
-                case 5:
+                case 2:
                     backToMenu = true;
                     break;
                 default:

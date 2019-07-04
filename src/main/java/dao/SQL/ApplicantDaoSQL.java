@@ -136,4 +136,17 @@ public class ApplicantDaoSQL implements ApplicantDao {
         return applicants;
     }
 
+    @Override
+    public void deleteApplicantFromDomainMaurisuNet() {
+        String query = "DELETE FROM applicants\n" +
+                "WHERE email LIKE '%@mauriseu.net'";
+        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage()
+                    + "\nSQLState: " + e.getSQLState()
+                    + "\nVendorError: " + e.getErrorCode());
+        }
+    }
 }

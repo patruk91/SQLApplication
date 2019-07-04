@@ -9,5 +9,5 @@ public interface ApplicantDao {
     List<String[]> displayApplicantMarkus();
     void updatePhoneNumberForJemimaForeman();
     List<String[]> displayApplicantJemima();
-
+    void deleteApplicantFromDomainMaurisuNet();
 }
