@@ -3,6 +3,7 @@ package controller;
 import dao.ApplicantDao;
 import dao.MentorDao;
 import dao.SQL.ApplicantDaoSQL;
+import dao.SQL.CreateNewDatabse;
 import dao.SQL.MentorDaoSQL;
 import model.Mentor;
 import textView.reader.Reader;
@@ -23,8 +24,10 @@ public class Controller {
     private String password = "postgres";
     private MentorDao mentorDao = new MentorDaoSQL(url, user, password);
     private ApplicantDao applicantDao = new ApplicantDaoSQL(url, user, password);
+    private CreateNewDatabse createNewDatabse = new CreateNewDatabse(url, user, password);
 
     public void run() {
+        createNewDatabse.createDatabase();
         boolean exitApp = false;
         String menu = "Main menu:\n" +
                 "1. Display...\n" +
