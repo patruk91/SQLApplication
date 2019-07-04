@@ -52,4 +52,36 @@ public class MentorDaoSQL implements MentorDao {
             id++;
         }
     }
+
+    @Override
+    public List<String[]> getMentorsNickNames() {
+        String query = "SELECT nick_name FROM mentors";
+        List<String[]> mentors = new ArrayList<>();
+
+        try(Connection connection = DatabaseConnection.getConnection(url, user, password);
+            PreparedStatement stmt = connection.prepareStatement(query)) {
+            addMentorsNickNames(stmt, mentors);
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage()
+                    + "\nSQLState: " + e.getSQLState()
+                    + "\nVendorError: " + e.getErrorCode());
+        }
+        return mentors;
+    }
+
+    private void addMentorsNickNames(PreparedStatement stmt, List<String[]> mentors) throws SQLException {
+        ResultSet resultSet = stmt.executeQuery();
+        int id = 1;
+        while (resultSet.next()) {
+            String nickName = resultSet.getString("nick_name");
+
+            Mentor.MentorBuilder mentorBuilder = new Mentor.MentorBuilder();
+            mentorBuilder.setNickName(nickName);
+            Mentor mentor = mentorBuilder.build();
+
+            String[] mentorsNames = {String.valueOf(id), mentor.getNickName()};
+            mentors.add(mentorsNames);
+            id++;
+        }
+    }
 }

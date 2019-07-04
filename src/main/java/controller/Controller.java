@@ -2,9 +2,14 @@ package controller;
 
 import dao.MentorDao;
 import dao.SQL.MentorDaoSQL;
+import model.Mentor;
 import textView.reader.Reader;
 import textView.validator.Validator;
+import textView.view.FlipTable;
 import textView.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     private View view = new View();
@@ -67,10 +72,14 @@ public class Controller {
             int option = reader.getNumberInRange(1, 5);
             switch (option) {
                 case 1:
-                    mentorDao.displayMentorsFirstAndLastName();
+                    List<String[]> mentorsNames = mentorDao.getMentorsFirstAndLastName();
+                    view.displayTable(new String[]{"Id", "First name", "Last name" },
+                            mentorsNames.toArray(new String[0][0]));
                     break;
                 case 2:
-
+                    List<String[]> mentorsNickNames = mentorDao.getMentorsNickNames();
+                    view.displayTable(new String[]{"Id", "Nick name"},
+                            mentorsNickNames.toArray(new String[0][0]));
                     break;
                 case 3:
 
