@@ -1,17 +1,15 @@
 package controller;
 
 import dao.ApplicantDao;
+import dao.HandleTablesInDatabaseDao;
 import dao.MentorDao;
 import dao.SQL.ApplicantDaoSQL;
-import dao.SQL.CreateNewDatabse;
+import dao.SQL.HandleTablesInDatabaseDaoSQL;
 import dao.SQL.MentorDaoSQL;
-import model.Mentor;
 import textView.reader.Reader;
 import textView.validator.Validator;
-import textView.view.FlipTable;
 import textView.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -24,10 +22,10 @@ public class Controller {
     private String password = "postgres";
     private MentorDao mentorDao = new MentorDaoSQL(url, user, password);
     private ApplicantDao applicantDao = new ApplicantDaoSQL(url, user, password);
-    private CreateNewDatabse createNewDatabse = new CreateNewDatabse(url, user, password);
+    private HandleTablesInDatabaseDao handleTablesInDatabaseDao = new HandleTablesInDatabaseDaoSQL(url, user, password);
 
     public void run() {
-        createNewDatabse.createDatabase();
+        handleTablesInDatabaseDao.createData();
         boolean exitApp = false;
         String menu = "Main menu:\n" +
                 "1. Display...\n" +
@@ -55,6 +53,7 @@ public class Controller {
                     break;
                 case 5:
                     exitApp = true;
+                    handleTablesInDatabaseDao.removeTables();
                     break;
                 default:
                     view.displayError("No option available");
