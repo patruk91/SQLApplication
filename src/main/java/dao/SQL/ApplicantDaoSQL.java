@@ -26,11 +26,23 @@ public class ApplicantDaoSQL implements ApplicantDao {
         String query = "SELECT first_name || ' ' || last_name " +
                 "AS full_name, phone_number FROM applicants\n" +
                 "WHERE first_name LIKE 'Carol';";
+        return getApplicantsFullNameAndPhoneNumber(query);
+    }
+
+    @Override
+    public List<String[]> getApplicantByIndicatedEmail() {
+        String query = "SELECT first_name || ' ' || last_name " +
+                "AS full_name, phone_number FROM applicants\n" +
+                "WHERE email LIKE '%@adipiscingenimmi.edu'";
+        return getApplicantsFullNameAndPhoneNumber(query);
+    }
+
+    private List<String[]> getApplicantsFullNameAndPhoneNumber(String query) {
         List<String[]> applicants = new ArrayList<>();
 
-        try(Connection connection = DatabaseConnection.getConnection(url, user, password);
-            PreparedStatement stmt = connection.prepareStatement(query)) {
-            addApplicantCarol(stmt, applicants);
+        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            addApplicantsFullNameAndPhoneNumber(stmt, applicants);
         } catch (SQLException e) {
             System.err.println("SQLException: " + e.getMessage()
                     + "\nSQLState: " + e.getSQLState()
@@ -39,7 +51,7 @@ public class ApplicantDaoSQL implements ApplicantDao {
         return applicants;
     }
 
-    private void addApplicantCarol(PreparedStatement stmt, List<String[]> applicants) throws SQLException {
+    private void addApplicantsFullNameAndPhoneNumber(PreparedStatement stmt, List<String[]> applicants) throws SQLException {
         ResultSet resultSet = stmt.executeQuery();
         int id = 1;
         while (resultSet.next()) {
@@ -50,4 +62,6 @@ public class ApplicantDaoSQL implements ApplicantDao {
             id++;
         }
     }
+
+
 }

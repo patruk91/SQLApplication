@@ -90,7 +90,9 @@ public class Controller {
                             applicantCarol.toArray(new String[0][0]));
                     break;
                 case 4:
-
+                    List<String[]> applicantByIndicatedEmail = applicantDao.getApplicantByIndicatedEmail();
+                    view.displayTable(new String[]{"Id", "Nick name", "Phone Number"},
+                            applicantByIndicatedEmail.toArray(new String[0][0]));
                     break;
                 case 5:
                     backToMenu = true;
