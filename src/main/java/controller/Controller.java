@@ -1,6 +1,8 @@
 package controller;
 
+import dao.ApplicantDao;
 import dao.MentorDao;
+import dao.SQL.ApplicantDaoSQL;
 import dao.SQL.MentorDaoSQL;
 import model.Mentor;
 import textView.reader.Reader;
@@ -20,6 +22,7 @@ public class Controller {
     private String user = "pl";
     private String password = "postgres";
     private MentorDao mentorDao = new MentorDaoSQL(url, user, password);
+    private ApplicantDao applicantDao = new ApplicantDaoSQL(url, user, password);
 
     public void run() {
         boolean exitApp = false;
@@ -82,7 +85,9 @@ public class Controller {
                             mentorsNickNames.toArray(new String[0][0]));
                     break;
                 case 3:
-
+                    List<String[]> applicantCarol = applicantDao.getApplicantCarol();
+                    view.displayTable(new String[]{"Id", "Nick name", "Phone Number"},
+                            applicantCarol.toArray(new String[0][0]));
                     break;
                 case 4:
 

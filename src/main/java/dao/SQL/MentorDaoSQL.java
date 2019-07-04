@@ -43,11 +43,7 @@ public class MentorDaoSQL implements MentorDao {
         while (resultSet.next()) {
             String firstName = resultSet.getString("first_name");
             String lastName = resultSet.getString("last_name");
-
-            Mentor.MentorBuilder mentorBuilder = new Mentor.MentorBuilder();
-            mentorBuilder.setFirstName(firstName).setLastName(lastName);
-            Mentor mentor = mentorBuilder.build();
-            String[] mentorsNames = {String.valueOf(id), mentor.getFirstName(), mentor.getLastName()};
+            String[] mentorsNames = {String.valueOf(id), firstName, lastName};
             mentors.add(mentorsNames);
             id++;
         }
@@ -74,12 +70,7 @@ public class MentorDaoSQL implements MentorDao {
         int id = 1;
         while (resultSet.next()) {
             String nickName = resultSet.getString("nick_name");
-
-            Mentor.MentorBuilder mentorBuilder = new Mentor.MentorBuilder();
-            mentorBuilder.setNickName(nickName);
-            Mentor mentor = mentorBuilder.build();
-
-            String[] mentorsNames = {String.valueOf(id), mentor.getNickName()};
+            String[] mentorsNames = {String.valueOf(id), nickName};
             mentors.add(mentorsNames);
             id++;
         }
