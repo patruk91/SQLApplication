@@ -7,4 +7,7 @@ public interface ApplicantDao {
     List<String[]> getApplicantByIndicatedEmail();
     void insertApplicantMarkus();
     List<String[]> displayApplicantMarkus();
+    void updatePhoneNumberForJemimaForeman();
+    List<String[]> displayApplicantJemima();
+
 }

@@ -83,20 +83,10 @@ public class ApplicantDaoSQL implements ApplicantDao {
     public List<String[]> displayApplicantMarkus() {
         String query = "SELECT first_name, last_name, phone_number, email, application_code FROM applicants\n" +
                 "WHERE application_code = 54823;";
-        List<String[]> applicants = new ArrayList<>();
-
-        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            addApplicantMarkus(stmt, applicants);
-        } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage()
-                    + "\nSQLState: " + e.getSQLState()
-                    + "\nVendorError: " + e.getErrorCode());
-        }
-        return applicants;
+        return getApplicantData(query);
     }
 
-    private void addApplicantMarkus(PreparedStatement stmt, List<String[]> applicants) throws SQLException {
+    private void addApplicant(PreparedStatement stmt, List<String[]> applicants) throws SQLException {
         ResultSet resultSet = stmt.executeQuery();
         int id = 1;
         while (resultSet.next()) {
@@ -105,11 +95,45 @@ public class ApplicantDaoSQL implements ApplicantDao {
             String phoneNumber = resultSet.getString("phone_number");
             String email = resultSet.getString("email");
             String applicationCode = resultSet.getString("application_code");
-            String[] mentorsNames = {String.valueOf(id), firstName, lastName, phoneNumber, email, applicationCode};
-            applicants.add(mentorsNames);
+            String[] applicant = {String.valueOf(id), firstName, lastName, phoneNumber, email, applicationCode};
+            applicants.add(applicant);
             id++;
         }
     }
 
+    @Override
+    public void updatePhoneNumberForJemimaForeman() {
+        String query = "UPDATE applicants\n" +
+                "SET phone_number = '003670/223-7459'\n" +
+                "WHERE first_name = 'Jemima' AND last_name = 'Foreman';";
+
+        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage()
+                    + "\nSQLState: " + e.getSQLState()
+                    + "\nVendorError: " + e.getErrorCode());
+        }
+    }
+
+    public List<String[]> displayApplicantJemima() {
+        String query = "SELECT first_name, last_name, phone_number, email, application_code FROM applicants\n" +
+                "WHERE first_name = 'Jemima' AND last_name = 'Foreman'";
+        return getApplicantData(query);
+    }
+
+    private List<String[]> getApplicantData(String query) {
+        List<String[]> applicants = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            addApplicant(stmt, applicants);
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage()
+                    + "\nSQLState: " + e.getSQLState()
+                    + "\nVendorError: " + e.getErrorCode());
+        }
+        return applicants;
+    }
 
 }
